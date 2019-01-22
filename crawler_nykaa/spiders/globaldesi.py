@@ -26,10 +26,11 @@ class GlobalDesiSpider(SitemapSpider):
             id_text = "discount-percentage-{}".format(data["Product Ids"])
             discount = response.xpath(".//span[@id='" + id_text + "']/text()").extract_first()
             data['discount'] = discount
+            data['url'] = response.url
             yield data
 
         page_links = response.xpath(".//div[@class='pages']/ol/li/a/@href").extract()
         if page_links:
             for link in page_links:
-                print(link)
+                # print(link)
                 yield Request(link, callback=self.parse)
